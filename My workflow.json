@@ -1,0 +1,210 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Contact Form",
+        "formDescription": "Please Contact us if you have a question",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "First name",
+              "placeholder": "Enter first name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Last name",
+              "placeholder": "Enter last name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What is your Email",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "What is your Course?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "n8n"
+                  },
+                  {
+                    "option": "Zaiper"
+                  },
+                  {
+                    "option": "Lang Chain"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ddfc7ec1-ff48-46c4-b478-eeb38d9c815e",
+      "name": "Contact form",
+      "webhookId": "df70fe4e-2828-4bc4-b595-0a23e84d2e53"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1F7OVxCrkPqJ95vk3wiPmiMMHm4ToH1LPoSOHYI-0SDM",
+          "mode": "list",
+          "cachedResultName": "Contact us",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1F7OVxCrkPqJ95vk3wiPmiMMHm4ToH1LPoSOHYI-0SDM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1F7OVxCrkPqJ95vk3wiPmiMMHm4ToH1LPoSOHYI-0SDM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First Name": "={{ $json['First name'] }}",
+            "Last Name": "={{ $json['Last name'] }}",
+            "Email": "={{ $json['What is your Email'] }}",
+            "course": "={{ $json['What is your Course?'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "course",
+              "displayName": "course",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "6867baea-66e9-4d58-8902-eab9e8e3bf69",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "5ACRgrKd4pL234gZ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Thank you for your responce.",
+        "emailType": "text",
+        "message": "=We Got your message! Our team will Contact you within 24 hours Thank You.\nRecoveray Team.",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "d1ef7f93-6ae3-49c4-8bad-6840cfcd6c03",
+      "name": "Send a message",
+      "webhookId": "01d5ebba-ae4b-4b1f-85fb-2fca95f74184",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "6yXzze1Z6tY8kPxZ",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Contact form": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "14cade7f-fc74-4f46-885e-bfd50cb2ef56",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2bb87cd41ff803ee808fbc4997942d28673efb7a6cc6a7ebbeb29a015301a65a"
+  },
+  "nodeGroups": [],
+  "id": "nDa2XbXrQMI0QVoN",
+  "tags": []
+}
